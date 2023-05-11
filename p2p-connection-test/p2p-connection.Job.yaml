@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jms-p2p-tester-qmps1
+  labels: 
+    app: p2p
+    qm: qmps1
+spec:
+  template:
+    metadata:
+      labels:
+        app: p2p
+        qm: qmps1
+    spec:
+      containers: 
+      - name: jms-p2p
+        image: quay.io/client-engineering-cee/ibm-mq-testing/p2p-conn-tester:latest
+        imagePullPolicy: Always
+        env:
+        - name: CONN_NAME
+          value: 165.72.169.236(1427)
+        - name: QMGR
+          value: QMPS1
+        - name: APP_USER
+          value: app
+        - name: APP_PASSWORD
+          value: 'w1r3$p33d'
+        - name: CHANNEL
+          value: DEV.APP.SVRCONN
+        - name: QUEUE_NAME
+          value: QUEUE1
+        - name: RATE
+          value: '1000'
+      restartPolicy: Never
+  backoffLimit: 0
